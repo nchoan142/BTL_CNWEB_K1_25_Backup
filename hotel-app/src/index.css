@@ -1,0 +1,264 @@
+/* src/index.css */
+
+/* =========================================
+   1. VARIABLES & IMPORT
+   ========================================= */
+/* Nhúng font Lobster (Chỉ dùng cho Logo) */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+:root {
+  /* --- MÀU SẮC (Giữ nguyên cấu hình cũ) --- */
+  --logo-color: #8586e9;          /* Màu Logo */
+  --primary-color: #99aaef;       /* Màu nền nút */
+  --primary-hover: #dbaef5;
+  --border-color: #848fe6;        /* Màu viền */
+  --white: #ffffff;
+  --black: #000000;
+  --text-silver: #808080;
+
+  /* --- FONT CHỮ --- */
+  /* Thiết lập biến font chính là Tahoma */
+  --main-font: "Tahoma", sans-serif; 
+  --logo-font: 'Lobster', cursive;
+  
+  line-height: 1.5;
+}
+
+/* =========================================
+   2. GLOBAL RESET (ÁP DỤNG TAHOMA CHO TOÀN BỘ WEB)
+   ========================================= */
+
+/* Áp dụng Tahoma cho Body */
+body {
+  font-family: var(--main-font) !important; /* QUAN TRỌNG: Ép font Tahoma */
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  display: block;
+  background-color: var(--white);
+  color: var(--black) !important; /* Mặc định chữ đen */
+}
+
+/* Áp dụng Tahoma cho TẤT CẢ các thẻ văn bản */
+h1, h2, h3, h4, h5, h6, p, span, li, a, label, input, textarea, button, td, th {
+    font-family: var(--main-font) !important;
+}
+
+/* Reset link */
+a { text-decoration: none; color: inherit; }
+
+/* =========================================
+   3. NGOẠI LỆ: LOGO (GIỮ FONT LOBSTER)
+   ========================================= */
+.nav-brand {
+    font-family: var(--logo-font) !important; /* Font Lobster */
+    color: var(--logo-color) !important;
+    font-size: 45px !important;    
+    text-transform: capitalize !important;
+    padding: 10px 0;
+    display: inline-block;
+    max-width: 300px;
+    line-height: 1.2;
+}
+
+/* =========================================
+   4. PHÂN CHIA MÀU SẮC (HEADER TRẮNG - BODY ĐEN)
+   ========================================= */
+
+/* --- KHUNG TRÊN (Banner & Header ảnh) --- */
+.hero-area, 
+.breadcumb-area {
+    color: var(--white) !important;
+}
+
+/* Ép màu trắng cho chữ nằm trên ảnh nền */
+.hero-area h2, .hero-area p, .hero-area a,
+.breadcumb-area h2, .breadcumb-area p,
+.bradcumbContent h2 {
+    color: var(--white) !important;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+}
+
+/* --- KHUNG DƯỚI (Nội dung chính) --- */
+/* Ép màu đen cho các khu vực nội dung để dễ đọc */
+.about-us-area h2, .about-us-area p,
+.our-hotels-area h2, .our-hotels-area p,
+.rooms-area h4, .rooms-area p, 
+.single-rooms-area h4, .single-rooms-area p,
+.table {
+    color: var(--black) !important;
+}
+
+/* =========================================
+   5. UI COMPONENTS (BUTTONS, FORMS, TABLES)
+   ========================================= */
+
+/* Nút bấm (Buttons) */
+.palatin-btn, .btn-primary, .book-room-btn {
+  /* Font Tahoma đã được kế thừa từ body, nhưng set lại cho chắc chắn */
+  font-family: var(--main-font) !important; 
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #333 !important; 
+  font-weight: bold !important;
+  transition: all 0.3s ease;
+}
+.palatin-btn:hover, .book-room-btn:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+  box-shadow: 0 5px 15px rgba(180, 132, 212, 0.4);
+}
+
+/* Form Inputs */
+.form-control {
+  font-family: var(--main-font) !important;
+  border: 2px solid var(--border-color) !important;
+  color: var(--black) !important;
+}
+.form-control:focus {
+  border-color: var(--border-color) !important;
+  box-shadow: 0 0 8px rgba(176, 123, 211, 0.5) !important;
+}
+
+/* Tables (Bảng) */
+.table-bordered, .table-bordered th, .table-bordered td {
+  border-color: var(--border-color) !important;
+  font-family: var(--main-font) !important;
+}
+.table thead {
+  background-color: var(--border-color) !important;
+}
+
+/* Menu Text */
+.classynav ul li a {
+    font-family: var(--main-font) !important; /* Tahoma */
+    color: #588bd2 !important; 
+    font-weight: bold;
+}
+
+/* =========================================
+   6. LAYOUT FIXES
+   ========================================= */
+.bg-img { background-size: cover !important; background-position: center !important; }
+
+.breadcumb-area {
+  height: 400px !important;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.single-rooms-area {
+  height: 500px !important;
+  margin-bottom: 30px;
+  background: var(--white);
+  border: 2px solid var(--border-color) !important;
+  position: relative;
+  overflow: hidden !important;
+}
+
+.single-rooms-area .bg-thumbnail {
+  height: 300px !important;
+  width: 100%;
+  position: absolute;
+  top: 0; left: 0;
+  transition: transform 0.6s ease;
+}
+.single-rooms-area:hover .bg-thumbnail { transform: scale(1.1); }
+
+.single-rooms-area .rooms-text {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  height: 150px;
+  background: var(--white);
+  padding: 20px;
+  z-index: 10;
+  border-top: 2px solid var(--border-color) !important;
+}
+
+.hero-area {
+    position: relative; z-index: 1; width: 100%; background-color: #2e2253;
+}
+@media only screen and (max-width: 767px) {
+    .hero-area h2 { font-size: 40px !important; }
+}
+/* --- CẬP NHẬT GIAO DIỆN MỚI --- */
+
+/* 1. Đổi font tiêu đề "Danh sách các phòng" thành Lobster */
+.section-heading h2 {
+    font-family: 'Lobster', cursive !important;
+    font-size: 50px !important; /* Tăng kích thước cho đẹp */
+    color: #654adc !important;
+}
+
+.price-from {
+    background-color: #9db7f0 !important; /* Màu Vàng Gold rực rỡ */
+    color: #000 !important;              /* Chữ đen đậm */
+    font-size: 18px !important;          /* Tăng cỡ chữ lên cho rõ */
+    font-weight: 900 !important;         /* In đậm hết mức */
+    
+    padding: 10px 20px !important;       /* Thêm khoảng trống xung quanh chữ */
+    border-radius: 5px !important;       /* Bo tròn góc nhẹ */
+    border: 2px solid #fff !important;   /* Viền trắng tạo tương phản */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important; /* Bóng đổ đen để nổi lên trên ảnh */
+    
+    /* Chỉnh vị trí để không bị che */
+    position: absolute !important;
+    top: 20px !important;                /* Cách mép trên 20px */
+    left: 50% !important;                /* Căn giữa */
+    transform: translateX(-50%) !important; 
+    z-index: 100 !important;             /* Luôn nằm trên cùng */
+    width: max-content !important;       /* Chiều rộng tự co giãn theo giá tiền */
+    transition: all 0.3s ease !important;
+}
+
+.price-from:hover {
+    color: #00008B !important; /* Chuyển sang màu Xanh Đậm (DarkBlue) */
+    
+    /* (Tùy chọn) Phóng to nhẹ lên 1 chút cho đẹp */
+    transform: translateX(-50%) scale(1.05) !important; 
+    cursor: default;
+}
+
+/* 3. Chỉnh vị trí nút "Đặt phòng" xuống dưới đáy */
+.single-rooms-area {
+    /* Tăng chiều cao khung chứa lên xíu để nút không bị chèn vào chữ */
+    height: 500px !important; 
+}
+
+.rooms-text {
+    /* Tăng chiều cao phần khung chữ trắng */
+    height: 230px !important; 
+}
+
+.book-room-btn {
+    position: absolute !important;
+    bottom: 20px !important; /* Cách đáy 20px -> Dịch xuống dưới */
+    left: 50% !important;
+    transform: translateX(-50%) !important; /* Căn giữa nút */
+    width: auto !important;
+    min-width: 150px;
+    z-index: 100 !important;
+}
+.single-rooms-area,
+.single-rooms-area .rooms-text {
+    transition: all 0.3s ease-in-out;
+}
+
+/* 2. Khi di chuột vào khung phòng chính (.single-rooms-area:hover) */
+.single-rooms-area:hover {
+    /* Đổi màu viền sang màu hồng điểm nhấn (sử dụng biến màu đã có) */
+    border-color: #8e62e0 !important;
+    
+    /* Thêm bóng đổ phát sáng nhẹ màu hồng */
+    box-shadow: #8e62e0 !important;
+}
+
+/* 3. Khi di chuột vào khung phòng, đổi màu nền của phần chứa chữ (.rooms-text) */
+.single-rooms-area:hover .rooms-text {
+    /* Dùng màu hồng phấn rất nhạt để nền không quá chói, chữ vẫn rõ */
+    background-color: #fff0f7 !important; 
+}
