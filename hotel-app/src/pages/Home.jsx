@@ -1,11 +1,9 @@
-// src/pages/Home.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const Home = () => {
-  // Hàm cuộn xuống phần lịch sử
   const scrollToHistory = () => {
     const section = document.getElementById('history-section');
     if (section) {
@@ -17,18 +15,17 @@ const Home = () => {
     <>
       <Header />
 
-      {/* --- 1. HERO AREA (BANNER LỚN) --- */}
+      {/* --- HERO AREA --- */}
       <section 
         className="hero-area d-flex align-items-center justify-content-center"
         style={{
             backgroundImage: "url('/img/bg-img/bg-3.jpg')",
-            height: '600px',
+            height: '100vh', // Full màn hình
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             position: 'relative'
         }}
       >
-        {/* Lớp phủ đen mờ */}
         <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.3)', zIndex: 0}}></div>
 
         <div className="container" style={{position: 'relative', zIndex: 2}}>
@@ -36,22 +33,20 @@ const Home = () => {
                 <div className="col-12 col-md-10 text-center">
                     
                     <div className="hero-text">
-                        {/* 1. Tên Khách Sạn */}
                         <h2 
                             className="text-lobster" 
                             data-animation="fadeInUp" 
                             data-delay="100ms" 
                             style={{
-                                fontSize: '100px', 
-                                color: 'white', 
-                                textShadow: '4px 4px 8px #000',
+                                fontSize: '120px', 
+                                color: '#ffffff',
+                                textShadow: '4px 4px 10px #000',
                                 marginBottom: '20px'
                             }}
                         >
                             The Palatin
                         </h2>
 
-                        {/* 2. KHUNG CHỮ GIỚI THIỆU */}
                         <div 
                             data-animation="fadeInUp" 
                             data-delay="300ms"
@@ -64,38 +59,34 @@ const Home = () => {
                                 border: '1px solid rgba(255,255,255,0.1)'
                             }}
                         >
-                            {/* QUAN TRỌNG: Dùng thẻ <div> thay vì <p> để tránh bị file CSS ép màu tím */}
                             <div style={{
-                                color: '#ffffff', /* Chắc chắn sẽ trắng */
+                                color: '#ffffff',
                                 fontSize: '18px',           
                                 margin: 0,
                                 lineHeight: '1.8',
-                                fontWeight: '400',          
+                                fontWeight: '400',
                                 letterSpacing: '1px',
-                                textAlign: 'center'
+                                textAlign: 'center',
                             }}>
                                 Trải nghiệm sự sang trọng và đẳng cấp bậc nhất.<br/>
                                 Nơi lưu giữ những khoảnh khắc đáng nhớ của bạn và gia đình.
                             </div>
                         </div>
                         
-                        {/* 3. Nút Khám Phá (Căn giữa hoàn hảo) */}
+                        {/* Nút Khám Phá */}
                         <div className="mt-50" data-animation="fadeInUp" data-delay="500ms">
                             <button 
                                 className="btn palatin-btn" 
                                 onClick={scrollToHistory}
                                 style={{ 
                                     borderRadius: '0px',
-                                    height: '60px',             /* Chiều cao cố định */
-                                    padding: '0 40px',          /* Chiều rộng thoáng */
+                                    height: '60px',
+                                    padding: '0 40px',
                                     fontSize: '18px',
-                                    
-                                    /* CĂN GIỮA CHỮ TRONG NÚT */
                                     display: 'inline-flex',     
-                                    alignItems: 'center',       /* Căn giữa dọc */
-                                    justifyContent: 'center',   /* Căn giữa ngang */
-                                    
-                                    margin: '0 auto',           /* Căn giữa nút so với màn hình */
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    margin: '0 auto',
                                     border: 'none'
                                 }} 
                             >
@@ -109,7 +100,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* --- 2. ABOUT & HISTORY SECTION --- */}
+      {/* --- CÁC PHẦN CÒN LẠI GIỮ NGUYÊN --- */}
       <section id="history-section" className="about-us-area section-padding-100-0" style={{padding: '80px 0'}}>
         <div className="container">
             <div className="row align-items-center">
@@ -119,8 +110,8 @@ const Home = () => {
                             <div className="line-"></div>
                             <h2>Lịch sử hình thành</h2>
                         </div>
-                        <p>Được thành lập vào năm 2010, The Palatin khởi nguồn từ một biệt thự cổ điển bên bờ biển. Trải qua hơn 15 năm phát triển, chúng tôi đã vươn mình trở thành một trong những khu nghỉ dưỡng 5 sao hàng đầu khu vực.</p>
-                        <p className="mt-3">Với kiến trúc kết hợp giữa nét cổ điển Châu Âu và vẻ đẹp nhiệt đới hiện đại, The Palatin không chỉ là nơi lưu trú, mà là một tác phẩm nghệ thuật kiến trúc bền vững với thời gian.</p>
+                        <p><b>Được thành lập vào năm 2010, The Palatin khởi nguồn từ một biệt thự cổ điển bên bờ biển. Trải qua hơn 15 năm phát triển, chúng tôi đã vươn mình trở thành một trong những khu nghỉ dưỡng 5 sao hàng đầu khu vực.</b></p>
+                        <p className="mt-3"><b>Với kiến trúc kết hợp giữa nét cổ điển Châu Âu và vẻ đẹp nhiệt đới hiện đại, The Palatin không chỉ là nơi lưu trú, mà là một tác phẩm nghệ thuật kiến trúc bền vững với thời gian.</b></p>
                         <Link to="/rooms" className="btn palatin-btn mt-50">Đặt phòng ngay</Link>
                     </div>
                 </div>
@@ -133,7 +124,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* --- 3. ACTIVITIES & SERVICES --- */}
       <section className="our-hotels-area section-padding-100-0" style={{background: '#f9f9f9', padding: '80px 0'}}>
         <div className="container">
             <div className="row">
@@ -147,7 +137,6 @@ const Home = () => {
             </div>
 
             <div className="row justify-content-center">
-                {/* Hoạt động 1 */}
                 <div className="col-12 col-md-6 col-lg-4">
                     <div className="single-rooms-area"> 
                         <div className="bg-thumbnail bg-img" style={{backgroundImage: "url('https://puluongbocbandiretreat.com/UploadFile/be-boi-vo-cuc1.jpg')"}}></div>
@@ -158,8 +147,6 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* Hoạt động 2 */}
                 <div className="col-12 col-md-6 col-lg-4">
                     <div className="single-rooms-area">
                         <div className="bg-thumbnail bg-img" style={{backgroundImage: "url('https://thietbibuffet.vn/wp-content/uploads/2021/03/nha-hang-5-sao-600x400.jpg')"}}></div>
@@ -170,8 +157,6 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-
-                 {/* Hoạt động 3 */}
                  <div className="col-12 col-md-6 col-lg-4">
                     <div className="single-rooms-area">
                         <div className="bg-thumbnail bg-img" style={{backgroundImage: "url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/f7/03/67/cabina-duo-de-spa-del.jpg?w=700&h=400&s=1')"}}></div>
