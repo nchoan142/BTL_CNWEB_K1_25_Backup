@@ -29,7 +29,7 @@ const Header = () => {
                         {user.role === 'admin' ? (
                           <>
                             <li><Link to="/admin">Quản lý Phòng</Link></li>
-                            <li><Link to="/admin-bookings">Quản lý Đơn</Link></li>
+                            <li><Link to="/admin-bookings">Quản lý Đặt phòng</Link></li>
                           </>
                         ) : (
                           <li><Link to="/history">Lịch sử</Link></li>
