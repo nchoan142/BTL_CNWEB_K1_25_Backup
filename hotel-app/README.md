@@ -1,16 +1,52 @@
-# React + Vite
+# 🏨 The Palatin - Hotel Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**The Palatin** là một ứng dụng web quản lý và đặt phòng khách sạn được xây dựng bằng **ReactJS**. Dự án cung cấp giao diện cho cả khách hàng (đặt phòng, xem lịch sử) và quản trị viên (quản lý phòng, quản lý đơn đặt).
 
-Currently, two official plugins are available:
+![Project Preview](./public/img/bg-img/bg-3.jpg)
+*(Bạn có thể thay thế dòng này bằng ảnh chụp màn hình dự án thực tế)*
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Tính năng chính
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 👤 Dành cho Khách hàng (User)
+* **Trang chủ:** Xem giới thiệu, banner động, các dịch vụ nổi bật.
+* **Danh sách phòng:** Xem chi tiết các hạng phòng, lọc phòng.
+* **Đặt phòng (Booking):**
+    * Chọn ngày Check-in / Check-out.
+    * Tự động tính toán tổng tiền dựa trên số đêm và số lượng phòng.
+    * Điền thông tin cá nhân và yêu cầu đặc biệt.
+* **Thanh toán:** Mô phỏng thanh toán qua QR Code, MoMo, PayPal hoặc thanh toán tại khách sạn.
+* **Lịch sử đặt phòng:** Xem lại các đơn đã đặt, trạng thái thanh toán và thông tin chi tiết.
 
-## Expanding the ESLint configuration
+### 🛠 Dành cho Quản trị viên (Admin)
+* **Dashboard:** Tổng quan hệ thống.
+* **Quản lý Phòng (CRUD):** Thêm, Sửa, Xóa phòng khách sạn.
+* **Quản lý Đơn đặt (Booking Management):**
+    * Xem danh sách tất cả đơn đặt phòng.
+    * Xem chi tiết ngày Check-in/Check-out.
+    * Xóa các đơn đặt phòng.
+    * Theo dõi trạng thái thanh toán.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠 Công nghệ sử dụng
+
+* **Frontend:** ReactJS (Vite/Create React App)
+* **Routing:** React Router DOM v6
+* **State Management & Data:** LocalStorage (Giả lập Database)
+* **Styling:** CSS3, Bootstrap 4/5, FontAwesome Icons.
+* **Fonts:** Google Fonts (Lobster, Tahoma).
+* **Notifications:** React Toastify.
+
+---
+
+## ⚙️ Hướng dẫn Cài đặt & Chạy dự án
+
+Đảm bảo máy tính của bạn đã cài đặt **Node.js** (Phiên bản 14 trở lên).
+
+### Bước 1: Clone dự án về máy
+### Bước 2: Cài đặt các thư viện (Dependencies)
+npm install
+### Bước 3: Khởi chạy dự án
+npm run dev
