@@ -4,306 +4,170 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 :root {
-  /* --- COLORS --- */
   --logo-color: #8586e9;
   --primary-color: #99aaef;
   --primary-hover: #dbaef5;
   --border-color: #848fe6;
-  --accent-pink: #8e62e0; /* Màu điểm nhấn khi hover */
+  --accent-pink: #8e62e0;
   --white: #ffffff;
   --black: #000000;
-  
-  /* --- FONTS --- */
   --main-font: "Tahoma", sans-serif; 
   --logo-font: 'Lobster', cursive;
-  
   line-height: 1.5;
 }
 
 /* =========================================
-   2. GLOBAL RESET & BASE STYLES
+   2. GLOBAL RESET
    ========================================= */
 body {
+  /* Ảnh nền toàn trang (Mờ mờ phía sau) */
   background-image: url('https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTEwL3RwNTQ5LTAwMy1zaS14LWJnLTAxMi0wMi12LmpwZw.jpg') !important;
   background-attachment: fixed !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   background-color: var(--white);
-  
   font-family: var(--main-font) !important;
   color: var(--black) !important;
-  
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh;
-  display: block;
+  margin: 0; padding: 0;
+  width: 100%; min-height: 100vh;
 }
 
-/* Reset Link */
 a { text-decoration: none; color: inherit; }
-
-/* Force Font Family on all elements */
-h1, h2, h3, h4, h5, h6, p, span, li, a, label, input, textarea, button, td, th {
+h1, h2, h3, h4, h5, h6, p, span, li, a, label, input, textarea, button {
   font-family: var(--main-font) !important;
 }
+.text-lobster { font-family: 'Lobster', cursive !important; }
 
-/* Utility Class: Font Lobster */
-.text-lobster {
-  font-family: 'Lobster', cursive !important; 
-}
-
-/* Utility Class: Translucent White Background */
-.card, 
-.table-responsive, 
-.single-rooms-area,
-.rooms-text,
-.contact-form-area form,
-.bg-white {
+/* Các khung nền trắng mờ */
+.card, .table-responsive, .single-rooms-area, .rooms-text, .contact-form-area form, .bg-white {
   background-color: rgba(255, 255, 255, 0.95) !important;
   border-radius: 8px !important;
 }
-
-/* Force text color black inside containers */
-.card-body, .table {
-  color: #000 !important;
-}
+.card-body, .table { color: #000 !important; }
 
 /* =========================================
-   3. HEADER & NAVIGATION
+   3. HEADER
    ========================================= */
 .header-area {
-  background-color: rgba(0, 0, 0, 0.1) !important; /* Trong suốt */
+  background-color: rgba(0, 0, 0, 0.1) !important;
   box-shadow: none !important;
   position: absolute !important; 
-  top: 0; left: 0;
-  width: 100%;
-  z-index: 999;
+  top: 0; left: 0; width: 100%; z-index: 999;
 }
-
 .nav-brand {
   font-family: var(--logo-font) !important;
   color: var(--logo-color) !important;
   font-size: 45px !important;    
   text-transform: capitalize !important;
-  padding: 10px 0;
-  display: inline-block;
-  max-width: 300px;
-  line-height: 1.2;
+  padding: 10px 0; display: inline-block;
 }
-
 .classynav ul li a {
   font-family: var(--main-font) !important;
-  color: #588bd2 !important; 
-  font-weight: bold;
+  color: #588bd2 !important; font-weight: bold;
 }
 
 /* =========================================
-   4. HERO & BREADCRUMB (BANNERS)
+   4. PHÂN BIỆT TRANG HOME VÀ CÁC TRANG CON (QUAN TRỌNG)
    ========================================= */
-.hero-area {
-  position: relative; 
-  z-index: 1; 
-  width: 100%; 
-  background-color: #2e2253;
-}
 
-.hero-area, 
+/* --- A. CÁC TRANG CON (Rooms, Booking...) --- */
+/* Dùng class .breadcumb-area -> Ảnh nhỏ, chữ TÍM */
 .breadcumb-area {
-  color: var(--white) !important;
+    height: 400px !important; /* Chiều cao cố định nhỏ */
+    width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white) !important;
+    background-size: cover !important; 
+    background-position: center !important; 
 }
-
-.breadcumb-area {
-  height: 400px !important;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.bg-img { 
-  background-size: cover !important; 
-  background-position: center !important; 
-}
-.hero-area h2, 
-.breadcumb-area h2,
-.bradcumbContent h2 {
-    font-family: 'Lobster', cursive !important; /* <--- DÒNG QUAN TRỌNG MỚI THÊM */
+/* Ép màu TÍM và font LOBSTER cho tiêu đề các trang con */
+.breadcumb-area h2, .bradcumbContent h2 {
+    font-family: 'Lobster', cursive !important;
     color: #7685e9 !important;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
-    font-size: 60px !important; /* Tăng kích thước chữ cho đẹp */
-}
-/* Text on Banner */
-.hero-area h2, .hero-area p, .hero-area a,
-.breadcumb-area h2, .breadcumb-area p,
-.bradcumbContent h2 {
-  color: #7685e9 !important;
-  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
-}
-.breadcumb-area p {
-     text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+    font-size: 60px !important;
 }
 
-@media only screen and (max-width: 767px) {
-  .hero-area h2 { font-size: 40px !important; }
+/* --- B. TRANG CHỦ (Home) --- */
+/* Dùng class .hero-area -> Ảnh to (100vh), style TỰ DO (để file Home.jsx tự chỉnh) */
+.hero-area {
+    position: relative; z-index: 1; width: 100%;
+    /* Không set height ở đây để inline-style 100vh trong Home.jsx hoạt động */
+}
+.hero-area h2 {
+    font-family: 'Lobster', cursive !important;
+    /* QUAN TRỌNG: KHÔNG có color: ... !important ở đây.
+       Để code trong Home.jsx (color: white) có thể đè lên được */
 }
 
 /* =========================================
-   5. UI COMPONENTS (BUTTONS, FORMS, TABLES)
+   5. CÁC THÀNH PHẦN KHÁC
    ========================================= */
-/* Buttons */
 .palatin-btn, .btn-primary, .book-room-btn {
   font-family: var(--main-font) !important;
   background-color: var(--primary-color) !important;
   border-color: var(--primary-color) !important;
-  color: #333 !important;
-  font-weight: bold !important;
+  color: #333 !important; font-weight: bold !important;
   transition: all 0.3s ease;
 }
-
-.palatin-btn:hover, .book-room-btn:hover {
+.palatin-btn:hover {
   background-color: var(--primary-hover) !important;
   border-color: var(--primary-hover) !important;
-  box-shadow: 0 5px 15px rgba(180, 132, 212, 0.4);
 }
-
-/* Forms */
 .form-control {
-  font-family: var(--main-font) !important;
   border: 2px solid var(--border-color) !important;
-  color: var(--black) !important;
 }
-.form-control:focus {
-  border-color: var(--border-color) !important;
-  box-shadow: 0 0 8px rgba(176, 123, 211, 0.5) !important;
-}
-
-/* Tables */
-.table-bordered, .table-bordered th, .table-bordered td {
-  border-color: var(--border-color) !important;
-  font-family: var(--main-font) !important;
-}
-.table thead {
-  background-color: var(--border-color) !important;
-}
-
-/* Headings color in Content Areas */
-.about-us-area h2, .about-us-area p,
-.our-hotels-area h2, .our-hotels-area p,
-.rooms-area h4, .rooms-area p, 
-.single-rooms-area h4, .single-rooms-area p,
-.table {
-  color: var(--black) !important;
-}
-
-/* Tiêu đề danh sách phòng */
 .section-heading h2 {
   font-family: 'Lobster', cursive !important;
   font-size: 50px !important;
   color: #654adc !important;
 }
-
-/* =========================================
-   6. ROOM CARD MODULE (Phức tạp nhất)
-   ========================================= */
+/* Room Card */
 .single-rooms-area {
-  height: 500px !important;
-  margin-bottom: 30px;
-  background: var(--white);
-  border: 2px solid var(--border-color) !important;
-  position: relative;
-  overflow: hidden !important;
-  transition: all 0.3s ease-in-out;
+  height: 500px !important; margin-bottom: 30px;
+  background: var(--white); border: 2px solid var(--border-color) !important;
+  position: relative; overflow: hidden !important; transition: all 0.3s ease-in-out;
 }
-
-/* Ảnh nền của phòng */
 .single-rooms-area .bg-thumbnail {
-  height: 300px !important;
-  width: 100%;
-  position: absolute;
-  top: 0; left: 0;
+  height: 300px !important; width: 100%; position: absolute; top: 0; left: 0;
   transition: transform 0.6s ease;
 }
-
-/* Phần chữ mô tả bên dưới */
 .single-rooms-area .rooms-text {
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 100%;
-  height: 230px !important; /* Chiều cao đủ cho nội dung */
-  background: var(--white);
-  padding: 20px;
-  z-index: 10;
-  border-top: 2px solid var(--border-color) !important;
-  transition: all 0.3s ease-in-out;
+  position: absolute; bottom: 0; left: 0; width: 100%; height: 230px !important;
+  background: var(--white); padding: 20px; z-index: 10; border-top: 2px solid var(--border-color) !important;
 }
-
-/* Nút Đặt phòng */
 .book-room-btn {
-  position: absolute !important;
-  bottom: 20px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: auto !important;
-  min-width: 150px;
-  z-index: 100 !important;
+  position: absolute !important; bottom: 20px !important; left: 50% !important;
+  transform: translateX(-50%) !important; width: auto !important; min-width: 150px; z-index: 100;
 }
-
-/* Tag Giá tiền */
 .price-from {
-  background-color: #9db7f0 !important;
-  color: #000 !important;
-  font-size: 18px !important;
-  font-weight: 900 !important;
-  padding: 10px 20px !important;
-  border-radius: 5px !important;
-  border: 2px solid #fff !important;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
-  
-  position: absolute !important;
-  top: 20px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  z-index: 100 !important;
-  width: max-content !important;
-  transition: all 0.3s ease !important;
+  background-color: #9db7f0 !important; color: #000 !important; font-size: 16px !important;
+  font-weight: 900 !important; padding: 8px 15px !important; border-radius: 5px !important;
+  position: absolute !important; top: 20px !important; left: 50% !important; transform: translateX(-50%) !important;
+  z-index: 100;
+}
+.single-rooms-area:hover .bg-thumbnail { transform: scale(1.1); }
+.single-rooms-area:hover { border-color: var(--accent-pink) !important; }
+.single-rooms-area:hover .rooms-text { background-color: #fff0f7 !important; }
+/* --- SỬA LỖI MẤT CHỮ TRONG THẺ --- */
+
+/* Ép màu đen cho tiêu đề và đoạn văn trong các thẻ (Card) */
+.single-rooms-area h4, 
+.single-rooms-area p,
+.rooms-text h4, 
+.rooms-text p {
+    color: #000000 !important; /* Màu đen tuyệt đối */
 }
 
-/* --- HOVER EFFECTS (HIỆU ỨNG DI CHUỘT) --- */
-
-/* 1. Zoom ảnh nền */
-.single-rooms-area:hover .bg-thumbnail { 
-  transform: scale(1.1); 
+/* Đảm bảo các phần giới thiệu khác (như Lịch sử) cũng có chữ màu đen */
+.about-us-area p, 
+.our-hotels-area p,
+.section-heading p {
+    color: #555555 !important; /* Màu xám đậm cho văn bản thường */
 }
 
-/* 2. Đổi màu viền và bóng đổ Card */
-.single-rooms-area:hover {
-  border-color: var(--accent-pink) !important;
-  box-shadow: 0 5px 15px rgba(142, 98, 224, 0.4) !important;
-}
-
-/* 3. Đổi nền phần chữ sang hồng nhạt */
-.single-rooms-area:hover .rooms-text {
-  background-color: #fff0f7 !important; 
-}
-
-/* 4. Đổi màu chữ tag giá tiền */
-.price-from:hover {
-  color: #00008B !important;
-  transform: translateX(-50%) scale(1.05) !important; 
-  cursor: default;
-}
-/* --- CẬP NHẬT RIÊNG CHO TIÊU ĐỀ ADMIN VÀ CÁC MỤC KHÁC --- */
-
-/* 1. Tiêu đề các phần (Ví dụ: "Lịch sử đặt phòng...") */
-.section-heading h2, 
-h2.text-lobster,
-h3.text-lobster {
-    font-family: 'Lobster', cursive !important;
-}
-
-/* 2. Tiêu đề trang Admin (Nếu bạn chưa thêm class text-lobster vào JSX thì dùng cái này ép font) */
-.container h2.text-center {
-    font-family: 'Lobster', cursive !important;
+.about-us-area h2,
+.our-hotels-area h2 {
+    color: #000000 !important;
 }
