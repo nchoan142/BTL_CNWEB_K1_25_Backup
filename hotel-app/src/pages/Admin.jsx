@@ -1,4 +1,3 @@
-// src/pages/Admin.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
@@ -59,11 +58,46 @@ const Admin = () => {
   };
 
   const handleDelete = (id) => {
-    if(window.confirm("Bạn chắc chắn muốn xóa phòng này?")) {
-      const updatedRooms = roomService.delete(id);
-      setRooms(updatedRooms);
-      toast.success("Đã xóa phòng thành công!");
-    }
+    toast.warn(
+      ({ closeToast }) => (
+        <div>
+          <h6 className="mb-2 text-dark">Xác nhận xóa?</h6>
+          <p className="mb-3 text-muted" style={{fontSize: '13px'}}>
+            Hành động này không thể hoàn tác.
+          </p>
+          <div className="d-flex justify-content-end">
+            {/* Nút Hủy */}
+            <button 
+                className="btn btn-secondary btn-sm mr-2" 
+                onClick={closeToast}
+            >
+                Hủy
+            </button>
+            <button 
+                className="btn btn-danger btn-sm" 
+                onClick={() => {
+                    // 1. Thực hiện xóa
+                    const updatedRooms = roomService.delete(id);
+                    setRooms(updatedRooms);
+                    // 2. Thông báo thành công
+                    toast.dismiss(); // Đóng tất cả toast hiện tại
+                    toast.success("Đã xóa phòng thành công!");
+                }}
+            >
+                Xóa ngay
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        position: "top-center",
+        autoClose: false,
+        closeOnClick: false,
+        draggable: false,
+        closeButton: false,
+        style: { minWidth: '300px' }
+      }
+    );
   };
 
   return (
