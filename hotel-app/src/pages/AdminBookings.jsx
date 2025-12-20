@@ -3,10 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { bookingService, authService } from '../utils/api';
-// 1. Import Toast
 import { toast } from 'react-toastify';
 
-// 2. Component xác nhận xóa (Giống bên Admin)
+// Component xác nhận xóa
 const ConfirmDeleteMsg = ({ closeToast, onConfirm }) => (
   <div>
     <h6 style={{marginBottom: '10px'}}>Bạn chắc chắn muốn xóa đơn này?</h6>
@@ -35,28 +34,22 @@ const AdminBookings = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 1. Kiểm tra quyền Admin
     const user = authService.getCurrentUser();
     if (!user || user.role !== 'admin') {
-      // Thay alert bằng toast lỗi
       toast.error("Bạn không có quyền truy cập trang này!");
       navigate('/login');
       return;
     }
-    // 2. Lấy dữ liệu booking
     setBookings(bookingService.getAll());
   }, [navigate]);
 
-  // Hàm xóa đơn đặt phòng (Đã nâng cấp dùng Toast Confirm)
   const handleDelete = (id) => {
-    // Định nghĩa hành động xóa
     const performDelete = () => {
         const updatedList = bookingService.delete(id);
         setBookings(updatedList);
         toast.success(`Đã xóa đơn #${id} thành công!`);
     };
 
-    // Hiện Toast xác nhận (không tự tắt)
     toast.warn(
         <ConfirmDeleteMsg onConfirm={performDelete} />, 
         {
@@ -69,11 +62,10 @@ const AdminBookings = () => {
     );
   };
 
-  // Hàm hiển thị màu sắc cho trạng thái
   const getStatusBadge = (status) => {
     switch (status) {
       case 'Paid': return <span className="badge badge-success">Đã thanh toán</span>;
-      case 'Pay at Hotel': return <span className="badge badge-warning">Thanh toán tại KS</span>;
+      case 'Pay at Hotel': return <span className="badge badge-warning">Thanh toán tại khi checkin</span>;
       default: return <span className="badge badge-danger">Chưa thanh toán</span>;
     }
   };
@@ -82,13 +74,16 @@ const AdminBookings = () => {
     <>
       <Header />
       <div className="container" style={{ marginTop: '150px', marginBottom: '100px' }}>
-        <h2 className="mb-4 text-center">Quản lý Đặt Phòng</h2>
+<h2 className="mb-4 text-center text-lobster" style={{color: '#626ad4ff', fontSize: '50px' }}>
+    Quản lý Đặt Phòng
+</h2>
         <div className="table-responsive">
             <table className="table table-bordered table-hover shadow-sm">
             <thead style={{ backgroundColor: 'var(--border-color)', color: '#333' }}>
                 <tr>
                 <th>Mã Đơn</th>
                 <th>Khách Hàng</th>
+                <th>Thời Gian</th> {/* CỘT MỚI: Check-in/out */}
                 <th>Liên Hệ</th>
                 <th>Chi Tiết</th>
                 <th>Yêu Cầu</th>
@@ -105,6 +100,14 @@ const AdminBookings = () => {
                     <td className="align-middle">
                         <strong>{b.customer.fullName}</strong><br/>
                         <small>Tuổi: {b.customer.age}</small>
+                    </td>
+
+                    {/* HIỂN THỊ NGÀY CHECK-IN / CHECK-OUT (MỚI) */}
+                    <td className="align-middle" style={{minWidth: '140px'}}>
+                        <small className="text-muted">Check-in:</small><br/>
+                        <strong>{b.customer.checkIn}</strong><br/>
+                        <small className="text-muted">Check-out:</small><br/>
+                        <strong>{b.customer.checkOut}</strong>
                     </td>
 
                     {/* Email & SĐT */}
@@ -143,7 +146,7 @@ const AdminBookings = () => {
                 </tr>
                 )) : (
                     <tr>
-                        <td colSpan="7" className="text-center py-4">Chưa có đơn đặt phòng nào.</td>
+                        <td colSpan="8" className="text-center py-4">Chưa có đơn đặt phòng nào.</td>
                     </tr>
                 )}
             </tbody>

@@ -22,15 +22,16 @@ const Payment = () => {
     if (data) {
       setBooking(data);
     } else {
-      alert("Không tìm thấy đơn hàng!");
+      toast.error("Không tìm thấy đơn hàng!");
       navigate('/rooms');
     }
   }, [bookingId, navigate]);
 
   if (!booking) return <div>Loading...</div>;
 
-  // Tính toán giá
-  const originalPrice = parseInt(booking.price) * parseInt(booking.customer.roomCount);
+  // Tính toán giá (Dựa trên tổng tiền đã tính ở bước Booking)
+  // booking.price lúc này là TỔNG TIỀN (đã nhân số đêm, số phòng bên Booking.jsx)
+  const originalPrice = parseInt(booking.price); 
   const discountAmount = originalPrice * 0.05; // 5%
   const discountedPrice = originalPrice - discountAmount;
 
@@ -61,7 +62,12 @@ const Payment = () => {
               <div className="card-body">
                 <p><strong>Phòng:</strong> {booking.roomName}</p>
                 <p><strong>Khách hàng:</strong> {booking.customer.fullName}</p>
-                <p><strong>Check-in:</strong> {booking.checkIn || '20/10/2025'}</p>
+                
+                {/* --- CẬP NHẬT NGÀY CHECK-IN & CHECK-OUT TỪ FORM --- */}
+                <p><strong>Check-in:</strong> {booking.customer.checkIn}</p>
+                <p><strong>Check-out:</strong> {booking.customer.checkOut}</p>
+                {/* -------------------------------------------------- */}
+                
                 <hr />
                 <p><strong>Giá gốc:</strong> ${originalPrice}</p>
                 {paymentOption === 'now' && (
@@ -151,10 +157,10 @@ const Payment = () => {
                       )}
 
                       {method === 'paypal' && (
-                         <div>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" style={{width: '100px'}} />
-                            <p className="mt-2">Bạn sẽ được chuyển hướng đến PayPal để hoàn tất.</p>
-                         </div>
+                          <div>
+                             <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" style={{width: '100px'}} />
+                             <p className="mt-2">Bạn sẽ được chuyển hướng đến PayPal để hoàn tất.</p>
+                          </div>
                       )}
                    </div>
                 </div>
