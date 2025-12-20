@@ -2,8 +2,7 @@
 
 **The Palatin** là một ứng dụng web quản lý và đặt phòng khách sạn được xây dựng bằng **ReactJS**. Dự án cung cấp giao diện cho cả khách hàng (đặt phòng, xem lịch sử) và quản trị viên (quản lý phòng, quản lý đơn đặt).
 
-![Project Preview](./public/img/bg-img/bg-3.jpg)
-*(Bạn có thể thay thế dòng này bằng ảnh chụp màn hình dự án thực tế)*
+![Project Preview](./public/img/core-img/image.png)
 
 ---
 
