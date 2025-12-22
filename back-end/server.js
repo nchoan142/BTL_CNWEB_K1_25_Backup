@@ -9,7 +9,7 @@ const bookingRoutes = require('./routes/bookings');
 const app = express(); // Server Express
 const port = 3000;
 
-app.use(cors());
+app.use(cors()); // cho phép front-end truy cập API từ back-end
 app.use(express.json()); // phải có dòng này mới sử dụng được req.body
 
 // Auth: Đường dẫn là /api/auth/register, /api/auth/login

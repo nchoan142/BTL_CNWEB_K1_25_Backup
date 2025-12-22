@@ -37,4 +37,53 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// api thêm dữ liệu vào bảng room_types (URL: /api/rooms)
+router.post('/', async (req, res) => {
+    const { type, price, description, adult, children, image } = req.body;
+
+    try {
+        const sql = `
+            INSERT INTO room_types (type, price, description, adult, children, image) 
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+        const [result] = await db.query(sql, [type, price, description, adult, children, image]);
+
+        res.status(201).json({ 
+            success: true, 
+            message: "Thêm loại phòng thành công!", 
+            id: result.insertId 
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// api xóa dữ liệu trong bảng room_types (URL: /api/rooms/:id)
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        // Kiểm tra xem có phòng nào đang dùng loại phòng này không?
+        // Nếu có thì KHÔNG ĐƯỢC XÓA (để tránh lỗi database)
+        const [check] = await db.query('SELECT * FROM rooms WHERE room_types_id = ?', [id]);
+        if (check.length > 0) {
+            return res.status(400).json({ 
+                success: false, 
+                message: "Không thể xóa! Đang có phòng thuộc loại này." 
+            });
+        }
+
+        // Nếu không có phòng nào dùng thì mới xóa
+        const sql = `DELETE FROM room_types WHERE id = ?`;
+        const [result] = await db.query(sql, [id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Không tìm thấy ID loại phòng này" });
+        }
+
+        res.json({ success: true, message: "Đã xóa loại phòng thành công!" });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
 module.exports = router;
