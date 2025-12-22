@@ -6,26 +6,29 @@ const authRoutes = require('./routes/auth');
 const roomRoutes = require('./routes/rooms');
 const bookingRoutes = require('./routes/bookings');
 
-const app = express();
+const app = express(); // Server Express
 const port = 3000;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // phải có dòng này mới sử dụng được req.body
 
-// --- CẤU HÌNH ĐƯỜNG DẪN (ROUTING) ---
-
-// 1. Nhóm Auth: Đường dẫn sẽ là /api/auth/register, /api/auth/login
+// Auth: Đường dẫn là /api/auth/register, /api/auth/login
 app.use('/api/auth', authRoutes);
 
-// 2. Nhóm Rooms: Đường dẫn sẽ là /api/rooms
+// Rooms: Đường dẫn là /api/rooms
 app.use('/api/rooms', roomRoutes);
 
-// 3. Nhóm Bookings: Đường dẫn sẽ là /api/bookings
+// Bookings: Đường dẫn là /api/bookings
 app.use('/api/bookings', bookingRoutes);
 
 
+// Tham số thứ 1: đường dẫn gốc (http://localhost:3000/)
+// Tham số thứ 2: hàm xử lý khi có request đến đường dẫn này
+// req: request (yêu cầu từ client)
+// res: response (phản hồi từ server)
 app.get('/', (req, res) => {
     res.send("Backend Hotel App đang chạy với cấu trúc Router!");
+    console.log("Có request đến");
 });
 
 app.listen(port, () => {
