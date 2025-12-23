@@ -37,26 +37,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// api thêm dữ liệu vào bảng room_types (URL: /api/rooms)
-router.post('/', async (req, res) => {
-    const { type, price, description, adult, children, image } = req.body;
 
-    try {
-        const sql = `
-            INSERT INTO room_types (type, price, description, adult, children, image) 
-            VALUES (?, ?, ?, ?, ?, ?)
-        `;
-        const [result] = await db.query(sql, [type, price, description, adult, children, image]);
-
-        res.status(201).json({ 
-            success: true, 
-            message: "Thêm loại phòng thành công!", 
-            id: result.insertId 
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-});
 
 // api xóa dữ liệu trong bảng room_types (URL: /api/rooms/:id)
 router.delete('/:id', async (req, res) => {

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { authService } from '../utils/api';
+// Dòng này yêu cầu bên api.js PHẢI CÓ export const authService
+import { authService } from '../utils/api'; 
 
 const Header = () => {
+  // Lấy thông tin user từ localStorage (thông qua hàm trong api.js)
   const user = authService.getCurrentUser();
   const navigate = useNavigate();
 
@@ -24,9 +26,11 @@ const Header = () => {
                   <ul>
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/rooms">Rooms</Link></li>
+                    
+                    {/* Kiểm tra xem có user đăng nhập chưa */}
                     {user ? (
                       <>
-                        {user.role === 'admin' ? (
+                        {user.username === 'admin' ? (
                           <>
                             <li><Link to="/admin">Quản lý Phòng</Link></li>
                             <li><Link to="/admin-bookings">Quản lý Đặt phòng</Link></li>
@@ -34,7 +38,12 @@ const Header = () => {
                         ) : (
                           <li><Link to="/history">Lịch sử</Link></li>
                         )}
-                        <li><a href="#" onClick={handleLogout}>Logout ({user.username})</a></li>
+                        {/* Hiển thị tên user an toàn hơn với user?.username */}
+                        <li>
+                            <a href="#" onClick={handleLogout}>
+                                Logout ({user?.username})
+                            </a>
+                        </li>
                       </>
                     ) : (
                       <li><Link to="/login">Login</Link></li>

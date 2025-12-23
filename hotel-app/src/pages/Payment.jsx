@@ -18,34 +18,45 @@ const Payment = () => {
   const [method, setMethod] = useState('qr'); // qr, momo, paypal
 
   useEffect(() => {
-    const data = bookingService.getById(bookingId);
-    if (data) {
-      setBooking(data);
-    } else {
-      toast.error("Không tìm thấy đơn hàng!");
-      navigate('/rooms');
-    }
+    const fetchBooking = async () => {
+        const data = await bookingService.getById(bookingId);
+        if (data) {
+            setBooking(data);
+        } else {
+            toast.error("Không tìm thấy đơn hàng!");
+            navigate('/rooms');
+        }
+    };
+    fetchBooking();
   }, [bookingId, navigate]);
 
-  if (!booking) return <div>Loading...</div>;
+  // if (!booking) return <div>Loading...</div>;
+  if (!booking) return <div className="text-center mt-5">Loading...</div>;
 
   // Tính toán giá (Dựa trên tổng tiền đã tính ở bước Booking)
   // booking.price lúc này là TỔNG TIỀN (đã nhân số đêm, số phòng bên Booking.jsx)
-  const originalPrice = parseInt(booking.price); 
-  const discountAmount = originalPrice * 0.05; // 5%
+  const originalPrice = parseInt(booking.total_price); // Database trả về total_price
+  const discountAmount = originalPrice * 0.05; 
   const discountedPrice = originalPrice - discountAmount;
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
+    let result;
+    
     if (paymentOption === 'now') {
-      // Logic thanh toán ngay
-      bookingService.updateStatus(booking.id, 'Paid', method, discountedPrice);
-      toast.success(`Thanh toán thành công qua ${method.toUpperCase()}!`);
+      // Gọi API cập nhật trạng thái thành 'Paid'
+      result = await bookingService.updateStatus(booking.id, 'Paid', method);
+      if (result.success) toast.success(`Thanh toán thành công qua ${method.toUpperCase()}!`);
     } else {
-      // Logic thanh toán sau
-      bookingService.updateStatus(booking.id, 'Pay at Hotel', 'Cash', originalPrice);
+      // Gọi API cập nhật trạng thái thành 'Pay at Hotel'
+      result = await bookingService.updateStatus(booking.id, 'Pay at Hotel', 'Cash');
       toast.info("Đã xác nhận! Vui lòng thanh toán khi nhận phòng.");
     }
-    navigate('/'); // Về trang chủ
+
+    if (result && result.success) {
+        navigate('/'); // Hoặc chuyển hướng đến trang Lịch sử đặt phòng
+    } else {
+        toast.error("Có lỗi xảy ra khi cập nhật đơn hàng.");
+    }
   };
 
   return (
@@ -61,11 +72,14 @@ const Payment = () => {
               <div className="card-header bg-dark text-white">Thông tin đặt phòng</div>
               <div className="card-body">
                 <p><strong>Phòng:</strong> {booking.roomName}</p>
-                <p><strong>Khách hàng:</strong> {booking.customer.fullName}</p>
+                {/* <p><strong>Khách hàng:</strong> {booking.customer.fullName}</p> */}
+                <p><strong>Khách hàng:</strong> {booking.guest_name}</p>
                 
                 {/* --- CẬP NHẬT NGÀY CHECK-IN & CHECK-OUT TỪ FORM --- */}
-                <p><strong>Check-in:</strong> {booking.customer.checkIn}</p>
-                <p><strong>Check-out:</strong> {booking.customer.checkOut}</p>
+                {/* <p><strong>Check-in:</strong> {booking.customer.checkIn}</p> */}
+                <p><strong>Check-in:</strong> {new Date(booking.check_in_date).toLocaleDateString()}</p>
+                {/* <p><strong>Check-out:</strong> {booking.customer.checkOut}</p> */}
+                <p><strong>Check-out:</strong> {new Date(booking.check_out_date).toLocaleDateString()}</p>
                 {/* -------------------------------------------------- */}
                 
                 <hr />

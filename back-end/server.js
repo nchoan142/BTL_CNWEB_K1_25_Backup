@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const roomRoutes = require('./routes/rooms');
 const bookingRoutes = require('./routes/bookings');
+const roomTypeRoutes = require('./routes/roomTypes');
 
 const app = express(); // Server Express
 const port = 3000;
@@ -20,6 +21,9 @@ app.use('/api/rooms', roomRoutes);
 
 // Bookings: Đường dẫn là /api/bookings
 app.use('/api/bookings', bookingRoutes);
+
+// Room Types: Đường dẫn là /api/room-types
+app.use('/api/room-types', roomTypeRoutes);
 
 
 // Tham số thứ 1: đường dẫn gốc (http://localhost:3000/)

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
+// Component Home
 const Home = () => {
   const scrollToHistory = () => {
     const section = document.getElementById('history-section');
