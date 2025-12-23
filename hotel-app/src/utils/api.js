@@ -1,144 +1,186 @@
 // src/utils/api.js
+const API_URL = "http://localhost:3000/api";
 
-export const initData = () => {
-  const defaultUsers = [
-      { username: 'admin', password: '123', role: 'admin' },
-      { username: 'user', password: '123', role: 'user' }
-  ];
-  localStorage.setItem('users', JSON.stringify(defaultUsers));
-  const defaultRooms = [
-      { 
-          id: 1,
-          name: 'Deluxe Sea View', 
-          price: 300, 
-          image: 'https://images.trvl-media.com/lodging/38000000/37430000/37422100/37422063/134275cd.jpg?impolicy=fcrop&w=1200&h=800&quality=medium',
-          description: 'Phòng hướng biển tuyệt đẹp với ban công rộng, bồn tắm nằm và giường King size cao cấp.' 
-      },
-      { 
-          id: 2,
-          name: 'Family Suite', 
-          price: 500, 
-          image: 'https://image-tc.galaxy.tf/wijpeg-aqolumwjs8hakl6ryslaxcb3s/family-suite-3-2023_standard.jpg?crop=112%2C0%2C1777%2C1333', 
-          description: 'Căn hộ 2 phòng ngủ rộng rãi, phù hợp cho gia đình 4 người, có bếp riêng và phòng khách.' 
-      },
-      { 
-          id: 3, 
-          name: 'Cozy Single Room', 
-          price: 150, 
-          image: 'https://hotelvilnia.lt/wp-content/uploads/2018/06/DSC07685-HDR-Edit-Edit.jpg', 
-          description: 'Không gian ấm cúng, yên tĩnh, đầy đủ tiện nghi cho khách đi công tác hoặc du lịch một mình.' 
-      }
-  ];
-  localStorage.setItem('rooms', JSON.stringify(defaultRooms));
-  localStorage.setItem('bookings', JSON.stringify([]));
-};
-
+// --- QUẢN LÝ TÀI KHOẢN (AUTH) ---
 export const authService = {
-  login: (username, password) => {
-      const users = JSON.parse(localStorage.getItem('users'));
-      const user = users.find(u => u.username === username && u.password === password);
-      if (user) {
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          return { success: true, user };
-      }
-      return { success: false };
-  },
-  logout: () => {
-      localStorage.removeItem('currentUser');
-      window.location.reload(); 
-  },
-  getCurrentUser: () => JSON.parse(localStorage.getItem('currentUser')),
-};
-
-// src/utils/api.js
-// ... (các phần initData và authService giữ nguyên)
-
-export const roomService = {
-  getAll: () => JSON.parse(localStorage.getItem('rooms') || '[]'),
-  
-  add: (room) => {
-      const rooms = roomService.getAll();
-      const maxId = rooms.length > 0 ? Math.max(...rooms.map(r => r.id)) : 0;
-      const newRoom = { ...room, id: maxId + 1 };
-      rooms.push(newRoom);
-      localStorage.setItem('rooms', JSON.stringify(rooms));
-      return rooms;
-  },
-
-  // --- THÊM HÀM NÀY VÀO ---
-  update: (id, updatedData) => {
-      let rooms = roomService.getAll();
-      const index = rooms.findIndex(r => r.id === id);
-      if (index !== -1) {
-          // Giữ nguyên ID, chỉ thay đổi thông tin khác
-          rooms[index] = { ...rooms[index], ...updatedData };
-          localStorage.setItem('rooms', JSON.stringify(rooms));
-      }
-      return rooms;
-  },
-  // ------------------------
-  
-  delete: (id) => {
-      let rooms = roomService.getAll();
-      rooms = rooms.filter(r => r.id !== id);
-      localStorage.setItem('rooms', JSON.stringify(rooms));
-      return rooms;
-  }
-};
-
-// ... (bookingService giữ nguyên)
-
-// src/utils/api.js
-
-export const bookingService = {
-  // 1. Sửa hàm book để trả về toàn bộ object booking (có ID)
-  book: (bookingInfo) => {
-      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      const newBooking = {
-          id: Date.now(),
-          status: 'Unpaid', // Mặc định là chưa thanh toán
-          date: new Date().toLocaleDateString(),
-          ...bookingInfo
-      };
-
-      bookings.push(newBooking);
-      localStorage.setItem('bookings', JSON.stringify(bookings));
-      
-      // Trả về object booking để lấy ID chuyển trang
-      return { success: true, booking: newBooking }; 
-  },
-
-  // 2. Thêm hàm cập nhật trạng thái sau khi thanh toán
-  updateStatus: (bookingId, status, paymentMethod, finalPrice) => {
-      let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-      const index = bookings.findIndex(b => b.id == bookingId);
-      
-      if (index !== -1) {
-          bookings[index].status = status; // 'Paid' hoặc 'Pay at Hotel'
-          bookings[index].paymentMethod = paymentMethod;
-          bookings[index].finalPrice = finalPrice;
-          localStorage.setItem('bookings', JSON.stringify(bookings));
-      }
-  },
-  getHistory: (username) => {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-        // Lọc những đơn có username trùng với người đang đăng nhập
-        return bookings.filter(b => b.username === username);
+    // 1. Đăng ký
+    register: async (userData) => {
+        try {
+            const response = await fetch(`${API_URL}/auth/register`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(userData),
+            });
+            return response.json();
+        } catch (error) {
+            return { success: false, error: "Lỗi kết nối server" };
+        }
     },
-  getById: (id) => {
-      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-      return bookings.find(b => b.id == id);
-  },
-  getAll: () => {
-      return JSON.parse(localStorage.getItem('bookings') || '[]');
-  },
 
-  // 2. THÊM HÀM XÓA BOOKING
-  delete: (id) => {
-      let bookings = bookingService.getAll();
-      bookings = bookings.filter(b => b.id !== id);
-      localStorage.setItem('bookings', JSON.stringify(bookings));
-      return bookings;
-  }
+    // 2. Đăng nhập
+    login: async (username, password) => {
+        try {
+            const response = await fetch(`${API_URL}/auth/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password }),
+            });
+            const data = await response.json();
+            if (data.success) {
+                localStorage.setItem('currentUser', JSON.stringify(data.user));
+            }
+            return data;
+        } catch (error) {
+            return { success: false, error: "Lỗi kết nối server" };
+        }
+    },
+
+    // 3. Đăng xuất
+    logout: () => {
+        localStorage.removeItem('currentUser');
+        window.location.href = '/login'; 
+    },
+
+    // 4. Lấy user hiện tại (Để Header hiển thị tên)
+    getCurrentUser: () => {
+        const user = localStorage.getItem('currentUser');
+        return user ? JSON.parse(user) : null;
+    }
+};
+
+// --- BỔ SUNG: QUẢN LÝ PHÒNG (ROOMS) ---
+export const roomService = {
+    // 1. Lấy danh sách (READ)
+    getAll: async () => {
+        try {
+            // Gọi vào endpoint /room-types vì đây là bảng bạn đang quản lý
+            const response = await fetch(`${API_URL}/room-types`);
+            return response.json();
+        } catch (error) {
+            return [];
+        }
+    },
+
+    getById: async (id) => {
+        try {
+            const response = await fetch(`${API_URL}/room-types/${id}`);
+            return response.json();
+        } catch (error) { return null; }
+    },
+
+    // 2. Thêm mới (CREATE)
+    create: async (roomData) => {
+        try {
+            const response = await fetch(`${API_URL}/room-types`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(roomData),
+            });
+            return response.json();
+        } catch (error) {
+            return { success: false, error: "Lỗi kết nối" };
+        }
+    },
+
+    // 3. Cập nhật (UPDATE) - Đây là cái bạn đang cần
+    update: async (id, roomData) => {
+        try {
+            const response = await fetch(`${API_URL}/room-types/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(roomData),
+            });
+            return response.json();
+        } catch (error) {
+            return { success: false, error: "Lỗi kết nối" };
+        }
+    },
+
+    // 4. Xóa (DELETE)
+    delete: async (id) => {
+        try {
+            const response = await fetch(`${API_URL}/room-types/${id}`, {
+                method: "DELETE",
+            });
+            return response.json();
+        } catch (error) {
+            return { success: false, error: "Lỗi kết nối" };
+        }
+    }
+};
+
+// src/utils/api.js
+
+// --- BỔ SUNG: QUẢN LÝ ĐẶT PHÒNG ---
+export const bookingService = {
+    // 1. Lấy danh sách tất cả đơn đặt (Dùng cho Admin) -> BỔ SUNG HÀM NÀY
+    getAll: async () => {
+        try {
+            const response = await fetch(`${API_URL}/bookings`);
+            return response.json();
+        } catch (error) {
+            return [];
+        }
+    },
+
+    // 2. Tạo đơn mới
+    create: async (bookingData) => {
+        try {
+            const response = await fetch(`${API_URL}/bookings`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(bookingData),
+            });
+            return response.json();
+        } catch (error) {
+            return { success: false, error: "Lỗi kết nối" };
+        }
+    },
+
+    // 3. Lấy chi tiết
+    getById: async (id) => {
+        try {
+            const response = await fetch(`${API_URL}/bookings/${id}`);
+            return response.json();
+        } catch (error) {
+            return null;
+        }
+    },
+
+    // 4. Cập nhật trạng thái
+    updateStatus: async (id, status, paymentMethod) => {
+        try {
+            const response = await fetch(`${API_URL}/bookings/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status, paymentMethod }),
+            });
+            return response.json();
+        } catch (error) {
+            return { success: false, error: "Lỗi kết nối" };
+        }
+    },
+
+    // 5. Xóa đơn đặt (Admin) -> BỔ SUNG HÀM NÀY
+    delete: async (id) => {
+        try {
+            const response = await fetch(`${API_URL}/bookings/${id}`, {
+                method: "DELETE",
+            });
+            return response.json();
+        } catch (error) {
+            return { success: false, error: "Lỗi xóa đơn" };
+        }
+    },
+
+    getHistory: async (userId) => {
+        try {
+            // Gọi vào endpoint router.get('/my-bookings/:userId') bên backend
+            const response = await fetch(`${API_URL}/bookings/my-bookings/${userId}`);
+            return response.json();
+        } catch (error) {
+            console.error("Lỗi lấy lịch sử:", error);
+            return [];
+        }
+    }
 };
