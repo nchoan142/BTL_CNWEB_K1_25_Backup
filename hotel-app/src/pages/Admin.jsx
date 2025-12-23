@@ -26,14 +26,19 @@ const Admin = () => {
 
   useEffect(() => {
     const user = authService.getCurrentUser();
-    // Check role admin (nếu user.role không phải admin thì đá về login)
-    if (!user || user.role !== 'admin') { // Lưu ý: Database của bạn lưu là 'user'/'admin' thường
+    
+    // --- SỬA ĐOẠN NÀY ---
+    // Cũ: if (!user || user.role !== 'admin')
+    // Mới: Kiểm tra nếu không phải user "admin" thì đuổi về
+    if (!user || user.username !== 'admin') { 
       toast.error("Bạn không có quyền truy cập trang quản trị!");
       navigate('/login');
     } else {
       loadData(); 
     }
-  }, [navigate]);
+    // --------------------
+
+}, [navigate]);
 
   const handleSubmit = async () => {
     // 1. Validate

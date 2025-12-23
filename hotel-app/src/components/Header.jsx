@@ -30,7 +30,7 @@ const Header = () => {
                     {/* Kiểm tra xem có user đăng nhập chưa */}
                     {user ? (
                       <>
-                        {user.role === 'admin' ? (
+                        {user.username === 'admin' ? (
                           <>
                             <li><Link to="/admin">Quản lý Phòng</Link></li>
                             <li><Link to="/admin-bookings">Quản lý Đặt phòng</Link></li>

@@ -28,7 +28,12 @@ const Login = () => {
         if (result.success) {
             toast.success(`Chào mừng bạn quay trở lại!`);
             // Chuyển hướng dựa trên role
-            navigate(result.user.role === 'admin' ? '/admin' : '/');
+            if (result.user.username === 'admin') {
+                navigate('/admin');
+            } else {
+                navigate('/');
+            }
+            // navigate(result.user.role === 'admin' ? '/admin' : '/');
         } else {
             toast.error(result.message || "Sai tài khoản hoặc mật khẩu!");
         }

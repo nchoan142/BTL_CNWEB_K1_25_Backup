@@ -27,7 +27,15 @@ router.post('/register', async (req, res) => {
 
 // Đăng nhập (URL: /api/auth/login)
 router.post('/login', async (req, res) => {
+    
     const { username, password } = req.body;
+
+    // --- THÊM ĐOẠN NÀY ĐỂ DEBUG ---
+    console.log("----------------LOGIN CHECK----------------");
+    console.log("Dữ liệu nhận từ Frontend:", req.body); 
+    console.log("Username đang tìm:", username);
+    console.log("Password đang tìm:", password);
+    // ----------------------------------
     try {
         const sql = `SELECT * FROM users WHERE username = ? AND password = ?`;
         const [rows] = await db.query(sql, [username, password]);

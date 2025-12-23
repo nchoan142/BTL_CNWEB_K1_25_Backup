@@ -42,7 +42,7 @@ const AdminBookings = () => {
 
   useEffect(() => {
     const user = authService.getCurrentUser();
-    if (!user || user.role !== 'admin') {
+    if (user.username !== 'admin') {
       toast.error("Bạn không có quyền truy cập trang này!");
       navigate('/login');
       return;
